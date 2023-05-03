@@ -1,0 +1,256 @@
+{
+	"info": {
+		"_postman_id": "bf38d7fd-2890-4592-be5f-20d72b3b2fe9",
+		"name": "mac_mini",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_uid": "9821396-bf38d7fd-2890-4592-be5f-20d72b3b2fe9"
+	},
+	"item": [
+		{
+			"name": "api",
+			"item": [
+				{
+					"name": "demo",
+					"item": [
+						{
+							"name": "/demo",
+							"id": "93b28a50-2ce7-4e7c-96aa-0e95586a7c6d",
+							"protocolProfileBehavior": {
+								"disableBodyPruning": true
+							},
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "formdata",
+									"formdata": [
+										{
+											"key": "name",
+											"value": "foo",
+											"type": "text"
+										},
+										{
+											"key": "age",
+											"value": "18",
+											"type": "text"
+										}
+									]
+								},
+								"url": {
+									"raw": "{{mac_mini}}",
+									"host": [
+										"{{mac_mini}}"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "/demo/<id>",
+							"id": "67700cbf-3522-4a08-938a-0cb0882987a3",
+							"protocolProfileBehavior": {
+								"disableBodyPruning": true
+							},
+							"request": {
+								"method": "DELETE",
+								"header": [],
+								"url": {
+									"raw": "{{mac_mini}}/1",
+									"host": [
+										"{{mac_mini}}"
+									],
+									"path": [
+										"1"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "/demo",
+							"id": "bf1ed91b-d7db-4d21-83dd-bf0a59b38172",
+							"protocolProfileBehavior": {
+								"disableBodyPruning": true
+							},
+							"request": {
+								"method": "PUT",
+								"header": [],
+								"body": {
+									"mode": "formdata",
+									"formdata": [
+										{
+											"key": "id",
+											"value": "1",
+											"type": "text"
+										},
+										{
+											"key": "name",
+											"value": "bar",
+											"type": "text"
+										}
+									]
+								},
+								"url": {
+									"raw": "{{mac_mini}}",
+									"host": [
+										"{{mac_mini}}"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "/demo",
+							"id": "54bcbdd3-619c-416a-b9a5-0ee26bcc4338",
+							"protocolProfileBehavior": {
+								"disableBodyPruning": true
+							},
+							"request": {
+								"method": "GET",
+								"header": [],
+								"body": {
+									"mode": "formdata",
+									"formdata": []
+								},
+								"url": {
+									"raw": "{{mac_mini}}",
+									"host": [
+										"{{mac_mini}}"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "/demo/<id>",
+							"id": "2b2f5dab-f562-4af6-9bf0-52d303959bc3",
+							"protocolProfileBehavior": {
+								"disableBodyPruning": true
+							},
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{mac_mini}}/1",
+									"host": [
+										"{{mac_mini}}"
+									],
+									"path": [
+										"1"
+									]
+								}
+							},
+							"response": []
+						}
+					],
+					"id": "679455f6-63d4-426c-aef1-3a3a887ce09e",
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"id": "b31e2aa2-f29b-43d4-a5d0-cee7f7b13983",
+								"type": "text/javascript",
+								"exec": [
+									"(function (server_name, controller_prefix) {",
+									"    const prev_url = pm.collectionVariables.get(server_name)",
+									"    const controller_url = `${prev_url}${controller_prefix}`",
+									"    // console.log('-> controller_url', controller_url)",
+									"    pm.collectionVariables.set(server_name, controller_url)",
+									"}('mac_mini', '/demo'))"
+								]
+							}
+						},
+						{
+							"listen": "test",
+							"script": {
+								"id": "fbbc29ba-fb02-410a-9168-99f56e6b3ef2",
+								"type": "text/javascript",
+								"exec": [
+									""
+								]
+							}
+						}
+					]
+				}
+			],
+			"id": "51cf8cc1-b38b-453a-8e72-9cfccbc9983a"
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"id": "f33a0c70-daa6-4b53-9504-b208024e076c",
+				"type": "text/javascript",
+				"exec": [
+					"class GlobalServer {",
+					"",
+					"    constructor(server_name, global_prefix_Key = \"prefix\") {",
+					"        this.__server_name = server_name",
+					"        this.__host_key = `${server_name}_host`",
+					"        this.__port_key = `${server_name}_port`",
+					"        this.__global_prefix_key = global_prefix_Key",
+					"    }",
+					"",
+					"    init() {",
+					"        this._init_url(this.__host_key, this.__port_key)",
+					"        this.setup()",
+					"    }",
+					"",
+					"    setup() {",
+					"        pm.globals.set(this.__server_name, this)",
+					"    }",
+					"",
+					"    _init_url = (host_key, port_key)=> {",
+					"        const host = pm.environment.get(this.__host_key) || 'localhost'",
+					"        const port = pm.environment.get(this.__port_key) || 80",
+					"        const prefix = pm.globals.get(this.__global_prefix_key) || ''",
+					"        const url = `${host}:${port}${prefix}`",
+					"        this.__host = host",
+					"        this.__port = port",
+					"        this.__prefix = prefix",
+					"        this.__url = url",
+					"        pm.collectionVariables.set(this.__server_name, url)",
+					"        // this._log()",
+					"    }",
+					"",
+					"    add_controller = (controller_prefix, server_name = this.__server_name) => {",
+					"        const url = pm.collectionVariables.get(server_name)",
+					"        const controller_url = `${url}${controller_prefix}`",
+					"        console.log('-> controller_url', controller_url)",
+					"        pm.collectionVariables.set(server_name, controller_url)",
+					"    }",
+					"",
+					"    _log = () => {",
+					"        console.log('-> host: ', this.__host)",
+					"        console.log('-> port: ', this.__port)",
+					"        console.log('-> prefix: ', this.__prefix)",
+					"        console.log('-> url: ', this.__url)",
+					"    }",
+					"}",
+					"",
+					"const server = new GlobalServer(\"mac_mini\")",
+					"server.init()",
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"id": "cb4c5d59-e81b-4cf5-bdd2-6ec5ede55dcb",
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"id": "c746f62d-e89d-4cce-a4dd-c373a07c8c5e",
+			"key": "mac_mini",
+			"value": ""
+		}
+	]
+}

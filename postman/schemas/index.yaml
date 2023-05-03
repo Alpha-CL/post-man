@@ -1,0 +1,193 @@
+openapi: '3.0.0'
+
+info:
+  version: '1.0.0'
+  title: 'PostMan APIs'
+  description: Restful APIs
+
+servers:
+  - url: http://server.com/api
+
+paths:
+  /contoller:
+    description: get all data
+    # get all items
+    get:
+      description: get all table items data with controller
+      parameters:
+      - name: id
+        in: query
+        required: false
+        description: parameter description by id
+        schema:
+          type: integer
+      responses:
+        200:
+          description: request success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/controller/success'
+    # modify a item
+    put:
+      summary: update a item data with controller
+      responses:
+        '200':
+          description: The spacecraft corresponding to the provided `spacecraftId`
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/controller/success'
+    # create a item
+    post:
+      summary: add a item data with controller
+      responses:
+        '200':
+          description: The spacecraft corresponding to the provided `spacecraftId`
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/controller/success'
+  /contoller/{id}:
+    description: get a item data by id
+    parameters:
+      - name: id
+        in: path
+        required: true
+        description: parameter description by id
+        schema:
+          type: integer
+    # get a item by id
+    get:
+      description: get a item with id
+      responses:
+        200:
+          description: request success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/controller/success'
+    # delete a item by id
+    delete:
+      summary: delete a item data with controller
+      responses:
+        '200':
+          description: The spacecraft corresponding to the provided `spacecraftId`
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/controller/success'
+  /restful_response:
+    description: Restful response demo
+    get:
+      description: method description
+      responses:
+        200:
+          description: request success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/controller/success'
+              examples:
+                data:
+                  value: {
+                    code: 200,
+                    message: 'request success',
+                    data: []
+                }
+        500:
+          description: service error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/controller/error'
+              examples:
+                data:
+                  value: {
+                    code: 5xx,
+                    message: 'server error',
+                    data: null
+                }
+        404:
+          description: not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/controller/not_fount'
+              examples:
+                data:
+                  value: {
+                    code: 404,
+                    message: 'not found',
+                    data: null
+                }
+
+components:
+  schemas:
+    item:
+      type: object
+      required:
+        - id
+        - name
+      properties:
+        id:
+          type: integer
+          format: int64
+        name:
+          type: string
+    items:
+      type: array
+      maxItems: 100
+      items:
+        $ref: "#/components/schemas/item"
+    success: 
+      type: object
+      required:
+        - code
+        - message
+        - data
+      properties:
+        code:
+          type: integer
+          description: success code
+        message:
+          type: string
+          description: success message
+        data:
+          type: object
+          description: success data
+    error:
+      type: object
+      required:
+        - code
+        - message
+        - data
+      properties:
+        code:
+          type: integer
+          description: error code
+        message:
+          type: string
+          description: error message
+        data:
+          type: object
+          description: error data
+    not_fount:
+      type: object
+      required:
+        - code
+        - message
+        - data
+      properties:
+        code:
+          type: integer
+          description: not_fount code
+        message:
+          type: string
+          description: not_fount message
+        data:
+          type: object
+          description: not_fount data
+
+security:
+  - Token: []
