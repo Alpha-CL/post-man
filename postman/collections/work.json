@@ -13,6 +13,59 @@
 					"name": "pond",
 					"item": [
 						{
+							"name": "/userInfo",
+							"id": "740149ba-ccff-4931-b760-b809822a0743",
+							"protocolProfileBehavior": {
+								"disableBodyPruning": true
+							},
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{buyness}}/userInfo",
+									"host": [
+										"{{buyness}}"
+									],
+									"path": [
+										"userInfo"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "/getWbInfo",
+							"id": "0a492696-a106-4efa-9f7c-3e44839197e1",
+							"protocolProfileBehavior": {
+								"disableBodyPruning": true
+							},
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "formdata",
+									"formdata": [
+										{
+											"key": "wbId",
+											"value": "1",
+											"description": "工号，不传返回全部",
+											"type": "text"
+										}
+									]
+								},
+								"url": {
+									"raw": "{{buyness}}/getWbInfo",
+									"host": [
+										"{{buyness}}"
+									],
+									"path": [
+										"getWbInfo"
+									]
+								}
+							},
+							"response": []
+						},
+						{
 							"name": "/getSourceList",
 							"id": "24266b5a-1001-45f9-b79a-31090e76903a",
 							"protocolProfileBehavior": {
@@ -22,12 +75,128 @@
 								"method": "GET",
 								"header": [],
 								"url": {
-									"raw": "{{buyness}}/getSourceList",
+									"raw": "{{buyness}}/getSourceList?pageSize=10&PageNumber=1&startTime&endTime&action&type",
 									"host": [
 										"{{buyness}}"
 									],
 									"path": [
 										"getSourceList"
+									],
+									"query": [
+										{
+											"key": "pageSize",
+											"value": "10",
+											"description": "单页大小"
+										},
+										{
+											"key": "PageNumber",
+											"value": "1",
+											"description": "第几页，从1开始"
+										},
+										{
+											"key": "startTime",
+											"value": null,
+											"description": "开始时间，交集"
+										},
+										{
+											"key": "endTime",
+											"value": null,
+											"description": "结束时间，交集"
+										},
+										{
+											"key": "action",
+											"value": null,
+											"description": "状态，交集"
+										},
+										{
+											"key": "type",
+											"value": null,
+											"description": "类型（测试/前端），交集"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "/addSource",
+							"id": "3c2c16c4-6f58-4217-baa7-c8b7f32dfcd1",
+							"protocolProfileBehavior": {
+								"disableBodyPruning": true
+							},
+							"request": {
+								"method": "POST",
+								"header": [],
+								"url": {
+									"raw": "{{buyness}}/addSource",
+									"host": [
+										"{{buyness}}"
+									],
+									"path": [
+										"addSource"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "/applySource",
+							"id": "0fc92989-f283-432b-9e5a-e47c3e7b0f98",
+							"protocolProfileBehavior": {
+								"disableBodyPruning": true
+							},
+							"request": {
+								"method": "POST",
+								"header": [],
+								"url": {
+									"raw": "{{buyness}}/updataSourceInfo",
+									"host": [
+										"{{buyness}}"
+									],
+									"path": [
+										"updataSourceInfo"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "/updataSourceInfo",
+							"id": "86b02e0a-997f-49af-86e0-980106bf6ca6",
+							"protocolProfileBehavior": {
+								"disableBodyPruning": true
+							},
+							"request": {
+								"method": "POST",
+								"header": [],
+								"url": {
+									"raw": "{{buyness}}/applySource",
+									"host": [
+										"{{buyness}}"
+									],
+									"path": [
+										"applySource"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "/deleteApplyInfo",
+							"id": "591840f7-400e-4c8f-a9ed-8232affc63fc",
+							"protocolProfileBehavior": {
+								"disableBodyPruning": true
+							},
+							"request": {
+								"method": "DELETE",
+								"header": [],
+								"url": {
+									"raw": "{{buyness}}/deleteApplyInfo",
+									"host": [
+										"{{buyness}}"
+									],
+									"path": [
+										"deleteApplyInfo"
 									]
 								}
 							},
@@ -176,7 +345,7 @@
 	],
 	"variable": [
 		{
-			"id": "7fd0e8e9-4ecc-4b1f-a81c-ccc4a396f40a",
+			"id": "8d55e1dc-220e-4f88-8371-b5a9765a4720",
 			"key": "buyness",
 			"value": ""
 		}
