@@ -1,0 +1,184 @@
+{
+	"info": {
+		"_postman_id": "d4447ac7-d283-437e-b128-9f3045514712",
+		"name": "work",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_uid": "9821396-d4447ac7-d283-437e-b128-9f3045514712"
+	},
+	"item": [
+		{
+			"name": "buyness",
+			"item": [
+				{
+					"name": "pond",
+					"item": [
+						{
+							"name": "/getSourceList",
+							"id": "24266b5a-1001-45f9-b79a-31090e76903a",
+							"protocolProfileBehavior": {
+								"disableBodyPruning": true
+							},
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{buyness}}/getSourceList",
+									"host": [
+										"{{buyness}}"
+									],
+									"path": [
+										"getSourceList"
+									]
+								}
+							},
+							"response": []
+						}
+					],
+					"id": "284063ec-80e8-4839-97e0-19fb50f53c9d",
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"id": "c757e186-7fe7-4965-a280-d64318def057",
+								"type": "text/javascript",
+								"exec": [
+									"(function (server_name, controller_prefix) {",
+									"    const prev_url = pm.collectionVariables.get(server_name)",
+									"    const controller_url = `${prev_url}${controller_prefix}`",
+									"    // console.log('-> controller_url', controller_url)",
+									"    pm.collectionVariables.set(server_name, controller_url)",
+									"}('buyness', '/pond'))"
+								]
+							}
+						},
+						{
+							"listen": "test",
+							"script": {
+								"id": "ad300f9f-f46c-4411-8ffb-822caa4e7935",
+								"type": "text/javascript",
+								"exec": [
+									""
+								]
+							}
+						}
+					]
+				}
+			],
+			"id": "311f718a-1d5b-4d68-8c10-939298109658",
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"id": "07163257-f1f2-4062-b1d7-b44a78d77dcb",
+						"type": "text/javascript",
+						"exec": [
+							"class GlobalServer {",
+							"",
+							"    env = pm.environment.name // 当前的环境变量",
+							"    ",
+							"    constructor(...args) {",
+							"        console.log('-> env:', this.env)",
+							"        const kwargs = args[0] || {}",
+							"        const {server_name, host = null, port = null, prefix = null} = {...kwargs}",
+							"        this.__server_name = server_name",
+							"        this.__host = host",
+							"        this.__port = port",
+							"        this.__host_key = host || `${server_name}_host`",
+							"        this.__port_key = port || `${server_name}_port`",
+							"        this.__prefix = prefix",
+							"    }",
+							"",
+							"    init() {",
+							"        this._init_url(this.__host_key, this.__port_key)",
+							"        this.setup()",
+							"    }",
+							"",
+							"    setup() {",
+							"        pm.globals.set(this.__server_name, this)",
+							"    }",
+							"",
+							"    _init_url = (host_key = this.__host_key, port_key = this.__port_key, prefix_key = this.__prefix)=> {",
+							"        this.__host = this.__host || this._get_vaiable(host_key) || 'localhost'",
+							"        this.__port = this.__port || this._get_vaiable(port_key) || 80",
+							"        this.__prefix = prefix_key || this._get_vaiable(prefix_key) || ''",
+							"        this.__url = `${this.__host}:${this.__port}${this.__prefix}`",
+							"        pm.collectionVariables.set(this.__server_name, this.__url)",
+							"        // this._log()",
+							"    }",
+							"",
+							"    _get_vaiable = (key) => {",
+							"        const global_vaibale = pm.globals.get(key) // 全局变量",
+							"        const collection_variable = pm.collectionVariables.get(key) // 集合变量",
+							"        const env_variable = pm.environment.get(key) // 环境变量",
+							"        const local_variable = pm.variables.get(key) // 本地变量",
+							"        return local_variable || collection_variable || env_variable || global_vaibale",
+							"    }",
+							"",
+							"    _log = () => {",
+							"        console.log('-> server_name: ', this.__server_name)",
+							"        console.log('-> host: ', this.__host)",
+							"        console.log('-> port: ', this.__port)",
+							"        console.log('-> host_key: ', this.__host_key)",
+							"        console.log('-> port_key: ', this.__port_key)",
+							"        console.log('-> prefix: ', this.__prefix)",
+							"        console.log('-> url: ', this.__url)",
+							"    }",
+							"}",
+							"",
+							"",
+							"const server = new GlobalServer({",
+							"    server_name: \"buyness\",",
+							"    host: 'http://openwrt.alphal.cn',",
+							"    port: 7300,",
+							"    prefix: '/mock/644b2bc7979666001f306b2e'",
+							"})",
+							"server.init()",
+							"",
+							"",
+							""
+						]
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"id": "621b4d51-3c49-47da-8477-08cbf9248a7e",
+						"type": "text/javascript",
+						"exec": [
+							""
+						]
+					}
+				}
+			]
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"id": "e34aad23-4bde-4e42-b6cb-92ab6213184f",
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"id": "56608cbf-7f2b-46bd-9981-6c3a605990f8",
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"id": "7fd0e8e9-4ecc-4b1f-a81c-ccc4a396f40a",
+			"key": "buyness",
+			"value": ""
+		}
+	]
+}

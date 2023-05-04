@@ -10,6 +10,7 @@ id = 01103321-c550-41e3-849e-48f99002aae9
 [config.relations.collections]
 rootDirectory = postman/collections
 files[] = {"id":"9821396-bf38d7fd-2890-4592-be5f-20d72b3b2fe9","path":"mac_mini.json","metaData":{}}
+files[] = {"id":"9821396-d4447ac7-d283-437e-b128-9f3045514712","path":"work.json","metaData":{}}
 
 [config.relations.collections.metaData]
 

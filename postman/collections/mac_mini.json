@@ -13,7 +13,7 @@
 					"name": "demo",
 					"item": [
 						{
-							"name": "/demo",
+							"name": "/",
 							"id": "93b28a50-2ce7-4e7c-96aa-0e95586a7c6d",
 							"protocolProfileBehavior": {
 								"disableBodyPruning": true
@@ -46,7 +46,7 @@
 							"response": []
 						},
 						{
-							"name": "/demo/<id>",
+							"name": "/<id>",
 							"id": "67700cbf-3522-4a08-938a-0cb0882987a3",
 							"protocolProfileBehavior": {
 								"disableBodyPruning": true
@@ -67,7 +67,7 @@
 							"response": []
 						},
 						{
-							"name": "/demo",
+							"name": "/",
 							"id": "bf1ed91b-d7db-4d21-83dd-bf0a59b38172",
 							"protocolProfileBehavior": {
 								"disableBodyPruning": true
@@ -100,7 +100,7 @@
 							"response": []
 						},
 						{
-							"name": "/demo",
+							"name": "/",
 							"id": "54bcbdd3-619c-416a-b9a5-0ee26bcc4338",
 							"protocolProfileBehavior": {
 								"disableBodyPruning": true
@@ -122,7 +122,7 @@
 							"response": []
 						},
 						{
-							"name": "/demo/<id>",
+							"name": "/<id>",
 							"id": "2b2f5dab-f562-4af6-9bf0-52d303959bc3",
 							"protocolProfileBehavior": {
 								"disableBodyPruning": true
@@ -180,16 +180,23 @@
 		{
 			"listen": "prerequest",
 			"script": {
-				"id": "f33a0c70-daa6-4b53-9504-b208024e076c",
+				"id": "c4c695ad-7bca-445f-bd4a-656222bedcf9",
 				"type": "text/javascript",
 				"exec": [
 					"class GlobalServer {",
 					"",
-					"    constructor(server_name, global_prefix_Key = \"prefix\") {",
+					"    env = pm.environment.name // 当前的环境变量",
+					"    ",
+					"    constructor(...args) {",
+					"        console.log('-> env: ', this.env)",
+					"        const kwargs = args[0] || {}",
+					"        const {server_name, host = null, port = null, prefix = null} = {...kwargs}",
 					"        this.__server_name = server_name",
-					"        this.__host_key = `${server_name}_host`",
-					"        this.__port_key = `${server_name}_port`",
-					"        this.__global_prefix_key = global_prefix_Key",
+					"        this.__host = host",
+					"        this.__port = port",
+					"        this.__host_key = host || `${server_name}_host`",
+					"        this.__port_key = port || `${server_name}_port`",
+					"        this.__prefix = prefix",
 					"    }",
 					"",
 					"    init() {",
@@ -201,35 +208,43 @@
 					"        pm.globals.set(this.__server_name, this)",
 					"    }",
 					"",
-					"    _init_url = (host_key, port_key)=> {",
-					"        const host = pm.environment.get(this.__host_key) || 'localhost'",
-					"        const port = pm.environment.get(this.__port_key) || 80",
-					"        const prefix = pm.globals.get(this.__global_prefix_key) || ''",
-					"        const url = `${host}:${port}${prefix}`",
-					"        this.__host = host",
-					"        this.__port = port",
-					"        this.__prefix = prefix",
-					"        this.__url = url",
-					"        pm.collectionVariables.set(this.__server_name, url)",
+					"    _init_url = (host_key = this.__host_key, port_key = this.__port_key, prefix_key = this.__prefix)=> {",
+					"        this.__host = this.__host || this._get_vaiable(host_key) || 'localhost'",
+					"        this.__port = this.__port || this._get_vaiable(port_key) || 80",
+					"        this.__prefix = prefix_key || this._get_vaiable(prefix_key) || ''",
+					"        this.__url = `${this.__host}:${this.__port}${this.__prefix}`",
+					"        pm.collectionVariables.set(this.__server_name, this.__url)",
 					"        // this._log()",
 					"    }",
 					"",
-					"    add_controller = (controller_prefix, server_name = this.__server_name) => {",
-					"        const url = pm.collectionVariables.get(server_name)",
-					"        const controller_url = `${url}${controller_prefix}`",
-					"        console.log('-> controller_url', controller_url)",
-					"        pm.collectionVariables.set(server_name, controller_url)",
+					"    _get_vaiable = (key) => {",
+					"        const global_vaibale = pm.globals.get(key) // 全局变量",
+					"        const collection_variable = pm.collectionVariables.get(key) // 集合变量",
+					"        const env_variable = pm.environment.get(key) // 环境变量",
+					"        const local_variable = pm.variables.get(key) // 本地变量",
+					"        return local_variable || collection_variable || env_variable || global_vaibale",
 					"    }",
 					"",
 					"    _log = () => {",
+					"        console.log('-> server_name: ', this.__server_name)",
 					"        console.log('-> host: ', this.__host)",
 					"        console.log('-> port: ', this.__port)",
+					"        console.log('-> host_key: ', this.__host_key)",
+					"        console.log('-> port_key: ', this.__port_key)",
 					"        console.log('-> prefix: ', this.__prefix)",
 					"        console.log('-> url: ', this.__url)",
 					"    }",
 					"}",
 					"",
-					"const server = new GlobalServer(\"mac_mini\")",
+					"",
+					"const server = new GlobalServer({",
+					"    server_name: 'mac_mini',",
+					"    prefix: '/api',",
+					"    // host: '',",
+					"    // port: '',",
+					"    // host_key: '',",
+					"    // port_key: ''",
+					"})",
 					"server.init()",
 					""
 				]
@@ -238,7 +253,7 @@
 		{
 			"listen": "test",
 			"script": {
-				"id": "cb4c5d59-e81b-4cf5-bdd2-6ec5ede55dcb",
+				"id": "31992fa4-9835-40d3-ad37-ae3755fba519",
 				"type": "text/javascript",
 				"exec": [
 					""
@@ -248,7 +263,7 @@
 	],
 	"variable": [
 		{
-			"id": "c746f62d-e89d-4cce-a4dd-c373a07c8c5e",
+			"id": "f252204e-9b89-4f3c-acd0-e75514834c7e",
 			"key": "mac_mini",
 			"value": ""
 		}
